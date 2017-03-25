@@ -44,17 +44,17 @@ endif
 
 if !exists('s:NERDTreeIndicatorMap')
     let s:NERDTreeIndicatorMap = {
-                \ 'Modified'  : '✹',
-                \ 'Staged'    : '✚',
-                \ 'Untracked' : '✭',
-                \ 'Renamed'   : '➜',
-                \ 'Unmerged'  : '═',
-                \ 'Deleted'   : '✖',
-                \ 'Dirty'     : '✗',
-                \ 'Clean'     : '✔︎',
-                \ 'Ignored'   : '☒',
-                \ 'Unknown'   : '?'
-                \ }
+       \ 'Modified'  : nr2char(8201),
+       \ 'Ignored'   : nr2char(8239),
+       \ 'Renamed'   : nr2char(8199),
+       \ 'Unmerged'  : nr2char(8200),
+       \ 'Deleted'   : nr2char(8287),
+       \ 'Unknown'   : nr2char(8195),
+       \ 'Dirty'     : nr2char(8202),
+       \ 'Staged'    : nr2char(8192),
+       \ 'Untracked' : nr2char(8194),
+       \ 'Clean'     : nr2char(8196)
+       \ }
 endif
 
 
@@ -333,18 +333,20 @@ function! s:AddHighlighting()
                 \ }
 
     for l:name in keys(l:synmap)
-        exec 'syn match ' . l:name . ' #' . escape(l:synmap[l:name], '~') . '# containedin=NERDTreeFlags'
+        exec 'syn match '.l:name.' ".*'.l:synmap[l:name].'.*" containedin=NERDTreeDir'
+        exec 'syn match '.l:name.' ".*'.l:synmap[l:name].'.*" containedin=NERDTreeFile'
+        exec 'syn match '.l:name.' ".*'.l:synmap[l:name].'.*" containedin=NERDTreeExecFile'
     endfor
 
-    hi def link NERDTreeGitStatusModified Special
+    hi def link NERDTreeGitStatusModified Keyword
     hi def link NERDTreeGitStatusStaged Function
-    hi def link NERDTreeGitStatusRenamed Title
-    hi def link NERDTreeGitStatusUnmerged Label
-    hi def link NERDTreeGitStatusUntracked Comment
-    hi def link NERDTreeGitStatusDirDirty Tag
-    hi def link NERDTreeGitStatusDirClean DiffAdd
+    hi def link NERDTreeGitStatusRenamed Identifier
+    hi def link NERDTreeGitStatusUnmerged Function
+    hi def link NERDTreeGitStatusUntracked Identifier
+    hi def link NERDTreeGitStatusDirDirty Identifier
+    hi def link NERDTreeGitStatusDirClean Tag
     " TODO: use diff color
-    hi def link NERDTreeGitStatusIgnored DiffAdd
+    hi def link NERDTreeGitStatusIgnored Comment
 endfunction
 
 function! s:SetupListeners()
