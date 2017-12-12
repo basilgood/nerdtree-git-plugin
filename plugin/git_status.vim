@@ -158,8 +158,8 @@ function! g:NERDTreeGetGitStatusPrefix(path)
         let l:pathStr = a:path.WinToUnixPath(l:pathStr)
         let l:cwd = a:path.WinToUnixPath(l:cwd)
     endif
-let l:pathStr = substitute(l:pathStr, fnameescape(l:cwd), '', '')
-let l:statusKey = ''
+    let l:pathStr = substitute(l:pathStr, fnameescape(l:cwd), '', '')
+    let l:statusKey = ''
     if a:path.isDirectory
         let l:statusKey = get(b:NERDTreeCachedGitDirtyDir, fnameescape(l:pathStr . '/'), '')
     else
